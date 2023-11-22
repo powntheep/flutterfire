@@ -124,7 +124,8 @@ class FirebaseCoreWeb extends FirebasePlatform {
         rethrow;
       }
     }
-    ScriptElement script = ScriptElement();
+    html.HTMLScriptElement script =
+        html.createElementTag('script') as html.HTMLScriptElement;
     script.type = 'text/javascript';
     script.crossOrigin = 'anonymous';
     script.text = '''
@@ -134,8 +135,8 @@ class FirebaseCoreWeb extends FirebasePlatform {
       };
     ''';
 
-    assert(document.head != null);
-    document.head!.append(script);
+    assert(html.document.head != null);
+    html.document.head!.appendChild(script);
 
     Completer completer = Completer();
 

@@ -4,7 +4,7 @@
 // found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:html';
+import 'package:web/helpers.dart' as html;
 
 import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
@@ -65,15 +65,14 @@ class RecaptchaVerifierFactoryWeb extends RecaptchaVerifierFactoryPlatform {
 
     if (container == null || container.isEmpty) {
       parameters['size'] = 'invisible';
-      Element? el = window.document.getElementById(_kInvisibleElementId);
+      html.Element? el = html.window.document.getElementById(_kInvisibleElementId);
 
       // If an existing element exists, something may have already been rendered.
       if (el != null) {
         el.remove();
       }
 
-      window.document.documentElement!.children
-          .add(DivElement()..id = _kInvisibleElementId);
+      html.window.document.documentElement!.appendChild(html.createElementTag('div')..id = _kInvisibleElementId);
 
       element = _kInvisibleElementId;
     } else {
@@ -81,7 +80,7 @@ class RecaptchaVerifierFactoryWeb extends RecaptchaVerifierFactoryPlatform {
       parameters['theme'] = convertRecaptchaVerifierTheme(theme);
 
       assert(
-        window.document.getElementById(container) != null,
+        html.window.document.getElementById(container) != null,
         'An exception was thrown whilst creating a RecaptchaVerifier instance. No DOM element with an ID of $container could be found.',
       );
 
@@ -129,7 +128,7 @@ class RecaptchaVerifierFactoryWeb extends RecaptchaVerifierFactoryPlatform {
   @override
   void clear() {
     _delegate.clear();
-    window.document.getElementById(_kInvisibleElementId)?.remove();
+    html.window.document.getElementById(_kInvisibleElementId)?.remove();
   }
 
   @override
